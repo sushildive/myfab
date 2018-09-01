@@ -42,3 +42,26 @@ services:
       - ./init-config/crypto-config/peerOrganizations/regulator.gov/ca/:/etc/hyperledger/fabric-ca-server-config
       - ./scripts/run_ca:/usr/bin/run_ca
     container_name: govca
+
+  zookeeper0:
+    container_name: zookeeper0
+    extends:
+      file: base/docker-compose-base.yaml
+      service: zookeeper
+    environment:
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=server.1=zookeeper0:2888:3888
+
+  kafka0:
+    container_name: kafka0
+    extends:
+      file: base/docker-compose-base.yaml
+      service: kafka
+    environment:
+      - KAFKA_BROKER_ID=0
+#      - KAFKA_MIN_INSYNC_REPLICAS=2
+#      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181
+    depends_on:
+      - zookeeper0
+
