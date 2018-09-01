@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+  pngca:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=PnG
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.producer.net-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/e2f46f0947feac7ec036f9611743c0669b158c7fdf021fb6fc05040bc3bbb2d4_sk
+    command: run_ca
+    volumes:
+      - ./init-config/crypto-config/peerOrganizations/producer.net/ca/:/etc/hyperledger/fabric-ca-server-config
+      - ./scripts/run_ca:/usr/bin/run_ca
+    container_name: pngca
+
+  enduserca:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=EndUser
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.consumer.in-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/220f7b7e151e0553ee312ab35c3b70a5d8c54a8c5315310a8af46246880ae406_sk
+    command: run_ca
+    volumes:
+      - ./init-config/crypto-config/peerOrganizations/consumer.in/ca/:/etc/hyperledger/fabric-ca-server-config
+      - ./scripts/run_ca:/usr/bin/run_ca
+    container_name: enduserca
+
+  govca:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=Gov
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.regulator.gov-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/8fe1829c2c8dbdb593cf0705a901492577c5eed1f2a524ca81bcfe3b9555b2a4_sk
+    command: run_ca
+    volumes:
+      - ./init-config/crypto-config/peerOrganizations/regulator.gov/ca/:/etc/hyperledger/fabric-ca-server-config
+      - ./scripts/run_ca:/usr/bin/run_ca
+    container_name: govca

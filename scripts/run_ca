@@ -1,0 +1,2 @@
+#!/bin/bash
+fabric-ca-server start --ca.certfile $FABRIC_CA_SERVER_TLS_CERTFILE --ca.keyfile $FABRIC_CA_SERVER_TLS_KEYFILE -b admin:adminpw -d
