@@ -65,3 +65,14 @@ services:
     depends_on:
       - zookeeper0
 
+  os11.bundler.org:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer
+    container_name: os11.bundler.org
+    depends_on:
+      - kafka0
+    volumes:
+      - ./init-config/chcfg/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./init-config/crypto-config/ordererOrganizations/bundler.org/orderers/os11.bundler.org/msp:/var/hyperledger/orderer/msp
+      - ./init-config/crypto-config/ordererOrganizations/bundler.org/orderers/os11.bundler.org/tls:/var/hyperledger/orderer/tls
