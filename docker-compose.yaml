@@ -1,5 +1,10 @@
 version: '2'
 
+networks:
+  default:
+    external:
+      name: fabnet
+
 services:
   pngca:
     image: hyperledger/fabric-ca
@@ -76,3 +81,99 @@ services:
       - ./init-config/chcfg/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ./init-config/crypto-config/ordererOrganizations/bundler.org/orderers/os11.bundler.org/msp:/var/hyperledger/orderer/msp
       - ./init-config/crypto-config/ordererOrganizations/bundler.org/orderers/os11.bundler.org/tls:/var/hyperledger/orderer/tls
+
+  unit21.producer.net:
+    container_name: unit21.producer.net
+    extends:
+      file: ./base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=unit21.producer.net
+      - CORE_PEER_ADDRESS=unit21.producer.net:7051
+      - CORE_PEER_CHAINCODEADDRESS=unit21.producer.net:7052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=unit21.producer.net:7051
+      - CORE_PEER_LOCALMSPID=PnGMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./init-config/crypto-config/peerOrganizations/producer.net/peers/unit21.producer.net/msp:/etc/hyperledger/fabric/msp
+        - ./init-config/crypto-config/peerOrganizations/producer.net/peers/unit21.producer.net/tls:/etc/hyperledger/fabric/tls
+
+  unit22.producer.net:
+    container_name: unit22.producer.net
+    extends:
+      file: ./base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=unit22.producer.net
+      - CORE_PEER_ADDRESS=unit22.producer.net:7051
+      - CORE_PEER_CHAINCODEADDRESS=unit22.producer.net:7052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=unit22.producer.net:7051
+      - CORE_PEER_LOCALMSPID=PnGMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./init-config/crypto-config/peerOrganizations/producer.net/peers/unit22.producer.net/msp:/etc/hyperledger/fabric/msp
+        - ./init-config/crypto-config/peerOrganizations/producer.net/peers/unit22.producer.net/tls:/etc/hyperledger/fabric/tls
+
+  family31.consumer.in:
+    container_name: family31.consumer.in
+    extends:
+      file: ./base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=family31.consumer.in
+      - CORE_PEER_ADDRESS=family31.consumer.in:7051
+      - CORE_PEER_CHAINCODEADDRESS=family31.consumer.in:7052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=family31.consumer.in:7051
+      - CORE_PEER_LOCALMSPID=EndUserMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./init-config/crypto-config/peerOrganizations/consumer.in/peers/family31.consumer.in/msp:/etc/hyperledger/fabric/msp
+        - ./init-config/crypto-config/peerOrganizations/consumer.in/peers/family31.consumer.in/tls:/etc/hyperledger/fabric/tls
+
+  family32.consumer.in:
+    container_name: family32.consumer.in
+    extends:
+      file: ./base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=family32.consumer.in
+      - CORE_PEER_ADDRESS=family32.consumer.in:7051
+      - CORE_PEER_CHAINCODEADDRESS=family32.consumer.in:7052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=family32.consumer.in:7051
+      - CORE_PEER_LOCALMSPID=EndUserMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./init-config/crypto-config/peerOrganizations/consumer.in/peers/family32.consumer.in/msp:/etc/hyperledger/fabric/msp
+        - ./init-config/crypto-config/peerOrganizations/consumer.in/peers/family32.consumer.in/tls:/etc/hyperledger/fabric/tls
+
+  office41.regulator.gov:
+    container_name: office41.regulator.gov
+    extends:
+      file: ./base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=office41.regulator.gov
+      - CORE_PEER_ADDRESS=office41.regulator.gov:7051
+      - CORE_PEER_CHAINCODEADDRESS=office41.regulator.gov:7052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=office41.regulator.gov:7051
+      - CORE_PEER_LOCALMSPID=GovMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./init-config/crypto-config/peerOrganizations/regulator.gov/peers/office41.regulator.gov/msp:/etc/hyperledger/fabric/msp
+        - ./init-config/crypto-config/peerOrganizations/regulator.gov/peers/office41.regulator.gov/tls:/etc/hyperledger/fabric/tls
+
+  office42.regulator.gov:
+    container_name: office42.regulator.gov
+    extends:
+      file: ./base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=office42.regulator.gov
+      - CORE_PEER_ADDRESS=office42.regulator.gov:7051
+      - CORE_PEER_CHAINCODEADDRESS=office42.regulator.gov:7052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=office42.regulator.gov:7051
+      - CORE_PEER_LOCALMSPID=GovMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./init-config/crypto-config/peerOrganizations/regulator.gov/peers/office42.regulator.gov/msp:/etc/hyperledger/fabric/msp
+        - ./init-config/crypto-config/peerOrganizations/regulator.gov/peers/office42.regulator.gov/tls:/etc/hyperledger/fabric/tls
